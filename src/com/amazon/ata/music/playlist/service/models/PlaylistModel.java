@@ -1,5 +1,8 @@
 package com.amazon.ata.music.playlist.service.models;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -11,7 +14,6 @@ public class PlaylistModel {
     private List<String> tags;
 
     public PlaylistModel() {
-
     }
 
     public PlaylistModel(Builder builder) {

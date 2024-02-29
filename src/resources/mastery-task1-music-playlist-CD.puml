@@ -1,1 +1,104 @@
 PARTICIPANTS: use this file for creating the class diagram in mastery task 01
+@startuml
+
+Interface RequestHandler<I, O> {
++ handleRequest(Input I, Context context) : O
+}
+
+class AddSongToPlaylistActivity {
+- log : Logger
+- playlistDao : PlaylistDao
+- albumTrackDao : AlbumTrackDao
++ handleRequest(AddSongToPlaylistRequest, Context) : AddSongToPlaylistResult
+}
+
+class CreatePlaylistActivity {
+- log : Logger
+- playlistDao : PlaylistDao
++ handleRequest(CreatePlaylistRequest, Context) : CreatePlaylistResult
+}
+
+class GetPlaylistActivity {
+- log : Logger
+- playlistDao : PlaylistDao
++ handleRequest(GetPlaylistRequest, Context) : GetPlaylistResult
+}
+
+class GetPlaylistSongsActivity {
+- log : Logger
+- playlistDao : PlaylistDao
++ handleRequest(GetPlaylistSongsRequest, Context) : GetPlaylistSongsResult
+}
+
+class UpdatePlaylistActivity {
+- log : Logger
+- playlistDao : PlaylistDao
++ handleRequest(UpdatePlaylistRequest, Context) : UpdatePlaylistResult
+}
+
+AddSongToPlaylistActivity ..|> RequestHandler
+CreatePlaylistActivity ..|> RequestHandler
+GetPlaylistActivity ..|> RequestHandler
+GetPlaylistSongsActivity ..|> RequestHandler
+UpdatePlaylistActivity ..|> RequestHandler
+
+class AlbumTrackDao {
+- dynamoDbMapper : DynamoDBMapper
+}
+
+class PlaylistDao {
+- dynamoDbMapper : DynamoDBMapper
++ getPlaylist(id : String) : Playlist
+}
+
+class DynamoDBMapper {
+}
+
+DynamoDBMapper *-- AlbumTrackDao
+DynamoDBMapper *-- PlaylistDao
+
+AddSongToPlaylistActivity *-- AlbumTrackDao
+AddSongToPlaylistActivity *-- PlaylistDao
+CreatePlaylistActivity *-- PlaylistDao
+GetPlaylistActivity *-- PlaylistDao
+GetPlaylistSongsActivity *-- PlaylistDao
+UpdatePlaylistActivity *-- PlaylistDao
+
+class RuntimeException {
+}
+
+class AlbumTrackNotFoundException{
+- serialVersionUID : long
+}
+
+class InvalidAttributeValueException {
+- serialVersionUID : long
+}
+
+class PlaylistNotFoundException {
+- serialVersionUID : long
+}
+
+AlbumTrackNotFoundException --|> RuntimeException
+InvalidAttributeValueException --|> RuntimeException
+PlaylistNotFoundException --|> RuntimeException
+
+class Playlist {
+- @DynamoDBHashKey id : String
+- name : String
+- customerId : String
+- songCount : Integer
+- tags : Set<String>
+- songList : List<AlbumTrack>
+}
+
+class AlbumTrack {
+- @DynamoDBHashKey asin : String
+- @DynamoDBRangeKey trackNumber : Integer
+- albumName : String
+- songTitle : String
+}
+
+Playlist o-- AlbumTrack
+
+@enduml
