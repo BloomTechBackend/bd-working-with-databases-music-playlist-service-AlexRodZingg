@@ -31,6 +31,7 @@ public class Playlist {
         this.id = id;
     }
 
+    @DynamoDBAttribute(attributeName = "name")
     public String getName() {
         return name;
     }
@@ -39,6 +40,7 @@ public class Playlist {
         this.name = name;
     }
 
+    @DynamoDBAttribute(attributeName = "customerId")
     public String getCustomerId() {
         return customerId;
     }
@@ -47,6 +49,7 @@ public class Playlist {
         this.customerId = customerId;
     }
 
+    @DynamoDBAttribute(attributeName = "songCount")
     public Integer getSongCount() {
         return songCount;
     }
@@ -55,6 +58,7 @@ public class Playlist {
         this.songCount = songCount;
     }
 
+    @DynamoDBAttribute(attributeName = "tags")
     public Set<String> getTags() {
         return tags;
     }
