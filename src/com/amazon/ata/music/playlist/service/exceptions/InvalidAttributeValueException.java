@@ -3,9 +3,9 @@ package com.amazon.ata.music.playlist.service.exceptions;
 /**
  * Exception to throw when a provided value has invalid attribute values.
  */
-public class InvalidAttributeValueException extends RuntimeException {
+public class InvalidAttributeValueException extends InvalidAttributeException {
 
-    private static final long serialVersionUID = 8007453316698012851L;
+    private static final long serialVersionUID = -3156683288989682863L;
 
     /**
      * Exception with no message or cause.

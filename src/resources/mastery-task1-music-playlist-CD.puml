@@ -67,6 +67,14 @@ UpdatePlaylistActivity *-- PlaylistDao
 class RuntimeException {
 }
 
+class InvalidAttributeException {
+- serialVersionUID : long
+}
+
+class InvalidAttributeChangeException {
+- serialVersionUID : long
+}
+
 class AlbumTrackNotFoundException{
 - serialVersionUID : long
 }
@@ -80,7 +88,9 @@ class PlaylistNotFoundException {
 }
 
 AlbumTrackNotFoundException --|> RuntimeException
-InvalidAttributeValueException --|> RuntimeException
+InvalidAttributeChangeException --|> InvalidAttributeException
+InvalidAttributeValueException --|> InvalidAttributeException
+InvalidAttributeException --|> RuntimeException
 PlaylistNotFoundException --|> RuntimeException
 
 class Playlist {
