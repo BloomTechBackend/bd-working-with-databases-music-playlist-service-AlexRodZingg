@@ -30,7 +30,7 @@ public class AlbumTrack {
         return trackNumber;
     }
 
-    public void setTrack_number(Integer trackNumber) {
+    public void setTrackNumber(Integer trackNumber) {
         this.trackNumber = trackNumber;
     }
 
@@ -39,7 +39,7 @@ public class AlbumTrack {
         return albumName;
     }
 
-    public void setAlbum_name(String albumName) {
+    public void setAlbumName(String albumName) {
         this.albumName = albumName;
     }
 
@@ -48,7 +48,7 @@ public class AlbumTrack {
         return songTitle;
     }
 
-    public void setSong_title(String song_title) {
+    public void setSongTitle(String song_title) {
         this.songTitle = songTitle;
     }
 }
