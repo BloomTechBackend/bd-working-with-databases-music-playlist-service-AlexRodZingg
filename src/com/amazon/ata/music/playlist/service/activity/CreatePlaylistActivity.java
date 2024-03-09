@@ -82,6 +82,6 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
 
         playlistDao.savePlaylist(playlist);
 
-        return CreatePlaylistResult.builder().withPlaylist(new ModelConverter().toPlaylistModel(playlist)).build();
+        return CreatePlaylistResult.builder().withPlaylist(ModelConverter.toPlaylistModel(playlist)).build();
     }
 }

@@ -1,6 +1,7 @@
 package com.amazon.ata.music.playlist.service.dynamodb;
 
 import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
+import com.amazon.ata.music.playlist.service.exceptions.NullPlaylistException;
 import com.amazon.ata.music.playlist.service.exceptions.PlaylistNotFoundException;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -40,6 +41,12 @@ public class PlaylistDao {
     }
 
     public Playlist savePlaylist(Playlist playlist) {
+        if (playlist == null) {
+            throw new NullPlaylistException("Playlist cannot be null!");
+        }
+        if (playlist.getId() == null || playlist.getId().isEmpty()) {
+            throw new IllegalArgumentException("Playlist id cannot be null or empty");
+        }
         dynamoDbMapper.save(playlist);
         return playlist;
     }

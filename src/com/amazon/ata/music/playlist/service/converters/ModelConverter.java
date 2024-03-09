@@ -6,6 +6,7 @@ import com.amazon.ata.music.playlist.service.dynamodb.models.Playlist;
 import com.amazon.ata.music.playlist.service.models.SongModel;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ModelConverter {
@@ -14,7 +15,7 @@ public class ModelConverter {
      * @param playlist the playlist to convert
      * @return the converted playlist
      */
-    public PlaylistModel toPlaylistModel(Playlist playlist) {
+    public static PlaylistModel toPlaylistModel(Playlist playlist) {
         List<String> tagsToConvert = null;
 
         if (playlist.getTags() != null && !playlist.getTags().isEmpty()) {
@@ -31,12 +32,31 @@ public class ModelConverter {
      * @param albumTrack the albumTrack to convert
      * @return the converted albumTrack
      */
-    public SongModel toSongModel(AlbumTrack albumTrack) {
+    public static SongModel toSongModel(AlbumTrack albumTrack) {
         return SongModel.builder()
                 .withAsin(albumTrack.getAsin())
                 .withTrackNumber(albumTrack.getTrackNumber())
                 .withAlbum(albumTrack.getAlbumName())
                 .withTitle(albumTrack.getSongTitle())
                 .build();
+    }
+
+    /**
+     * Leverages toSongModel() with a for loop to convert a {@link List<AlbumTrack>} to a {@link List<SongModel>}
+     * @param songs the {@link List<AlbumTrack>} to be converted
+     * @return the converted list
+     */
+    public static List<SongModel> toSongModelList(List<AlbumTrack> songs) {
+
+        if (songs == null || songs.isEmpty()) {
+            return new LinkedList<>();
+        }
+
+        List<SongModel> songModelList = new LinkedList<>();
+        for (AlbumTrack song : songs) {
+            songModelList.add(toSongModel(song));
+        }
+
+        return songModelList;
     }
 }

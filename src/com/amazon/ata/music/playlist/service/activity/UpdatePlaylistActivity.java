@@ -80,7 +80,7 @@ public class UpdatePlaylistActivity implements RequestHandler<UpdatePlaylistRequ
         playlistDao.savePlaylist(playlist);
 
         return UpdatePlaylistResult.builder()
-                .withPlaylist(new ModelConverter().toPlaylistModel(playlist))
+                .withPlaylist(ModelConverter.toPlaylistModel(playlist))
                 .build();
     }
 }
