@@ -65,33 +65,36 @@ public class AddSongToPlaylistActivity implements RequestHandler<AddSongToPlayli
 
         AlbumTrack albumTrack;
         Playlist playlist;
-        List<AlbumTrack> songList;
+        LinkedList<AlbumTrack> songList;
 
         try {
             albumTrack = albumTrackDao.getAlbumTrack(addSongToPlaylistRequest.getAsin(), addSongToPlaylistRequest.getTrackNumber());
+            playlist = playlistDao.getPlaylist(addSongToPlaylistRequest.getId());
         } catch (AlbumTrackNotFoundException ex) {
             throw new AlbumTrackNotFoundException("Album Track not found!");
-        }
-
-        try {
-            playlist = playlistDao.getPlaylist(addSongToPlaylistRequest.getId());
         } catch (PlaylistNotFoundException ex) {
             throw new PlaylistNotFoundException("Playlist not found!");
         }
 
-        songList = playlist.getSongList();
+        songList = (LinkedList<AlbumTrack>) playlist.getSongList();
         if (songList == null) {
-            songList = new ArrayList<>();
-            songList.add(albumTrack);
+            songList = new LinkedList<>();
             playlist.setSongList(songList);
-        } else {
-            songList.add(albumTrack);
         }
 
+        handleQueueNext(songList, albumTrack, addSongToPlaylistRequest.isQueueNext());
         playlistDao.savePlaylist(playlist);
 
         return AddSongToPlaylistResult.builder()
                 .withSongList(ModelConverter.toSongModelList(songList))
                 .build();
+    }
+
+    private void handleQueueNext(LinkedList<AlbumTrack> songList, AlbumTrack albumTrack, boolean isQueueNext) {
+        if (isQueueNext) {
+            songList.addFirst(albumTrack);
+        } else {
+            songList.addLast(albumTrack);
+        }
     }
 }
