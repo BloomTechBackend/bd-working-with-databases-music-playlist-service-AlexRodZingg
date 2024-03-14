@@ -69,8 +69,14 @@ public class CreatePlaylistActivity implements RequestHandler<CreatePlaylistRequ
         if (createPlaylistRequest.getTags() != null && !createPlaylistRequest.getTags().isEmpty()) {
             tags = new HashSet<>(createPlaylistRequest.getTags());
         } else {
-            tags = new HashSet<>();
+            tags = null;
         }
+
+        // DynamoDB does not allow storage of empty sets.
+        // Testing saving playlist with null Set for now.
+//        else {
+//            tags = new HashSet<>();
+//        }
 
         Playlist playlist = new Playlist();
         playlist.setId(playlistId);
